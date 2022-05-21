@@ -73,20 +73,23 @@ console.log(greeting);
 
 {
   /**
-   * Pick<T, K>
+   * Exclude<T, U>
    */
-  type Pick<T, K extends keyof T> = {
-    [P in K]: T[P];
-  };
+  type Exclude<T, U> = T extends U ? never : T;
 
-  interface A {
-    x: number;
-    y: number;
-  }
-  type T0 = Pick<A, 'x'>; // {x:number}
-  type T1 = Pick<A, 'x' | 'y'>; // {x:number; y:number}
+  type T0 = Exclude<"a" | "b", 'x'>; // "a" | "b"
+  type T1 = Exclude<string | (() => void), Function>; // string
+}
 
-  // type T3 = Pick<A, 'z'> 类型“"z"”不满足约束“keyof A”
+{
+  /**
+   * Extract<T, U>
+   */
+  type Extract<T, U> = T extends U ? T : never;
+
+  type T0 = Extract<"a" | "b", 'a'>;  // "a"
+  type T1 = Extract<string | (() => void), Function>; // () => void
+  type T2 = Extract<"a" | "b", 'c'>;  // never
 }
 
 {
@@ -107,24 +110,22 @@ console.log(greeting);
 
 {
   /**
-   * Exclude<T, U>
+   * Pick<T, K>
    */
-  type Exclude<T, U> = T extends U ? never : T;
+  type Pick<T, K extends keyof T> = {
+    [P in K]: T[P];
+  };
 
-  type T0 = Exclude<"a" | "b", 'x'>; // "a" | "b"
-  type T1 = Exclude<string | (() => void), Function>; // string
+  interface A {
+    x: number;
+    y: number;
+  }
+  type T0 = Pick<A, 'x'>; // {x:number}
+  type T1 = Pick<A, 'x' | 'y'>; // {x:number; y:number}
+
+  // type T3 = Pick<A, 'z'> 类型“"z"”不满足约束“keyof A”
 }
 
-{
-  /**
-   * Extract<T, U>
-   */
-  type Extract<T, U> = T extends U ? T : never;
-
-  type T0 = Extract<"a" | "b", 'a'>;  // "a"
-  type T1 = Extract<string | (() => void), Function>; // () => void
-  type T2 = Extract<"a" | "b", 'c'>;  // never
-}
 
 {
   /**
